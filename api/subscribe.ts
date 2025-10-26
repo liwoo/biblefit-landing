@@ -7,7 +7,9 @@ export default async function handler(
 ) {
   console.log('=== API Request Started ===')
   console.log('Environment variables check:')
+  console.log('- SUPABASE_URL:', process.env.SUPABASE_URL ? 'Set' : 'NOT SET')
   console.log('- VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL ? 'Set' : 'NOT SET')
+  console.log('- SUPABASE_ANON_KEY:', process.env.SUPABASE_ANON_KEY ? 'Set' : 'NOT SET')
   console.log('- VITE_SUPABASE_ANON_KEY:', process.env.VITE_SUPABASE_ANON_KEY ? 'Set' : 'NOT SET')
   console.log('- RECAPTCHA_SECRET_KEY:', process.env.RECAPTCHA_SECRET_KEY ? 'Set' : 'NOT SET')
   console.log('- RESEND_API:', process.env.RESEND_API ? 'Set' : 'NOT SET')
