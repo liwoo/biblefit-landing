@@ -1,5 +1,15 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { supabase } from '../lib/supabase'
+import { createClient } from '@supabase/supabase-js'
+
+// Initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || ''
+
+let supabase: ReturnType<typeof createClient> | null = null
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey)
+}
 
 export default async function handler(
   req: VercelRequest,
@@ -71,6 +81,11 @@ export default async function handler(
 
     // Insert signup into Supabase
     console.log('Attempting to insert into Supabase:', { name, email, project_id: 1 })
+
+    if (!supabase) {
+      console.error('Supabase client not initialized - missing environment variables')
+      return res.status(500).json({ error: 'Server configuration error - Supabase not initialized' })
+    }
 
     const { data: signupData, error: signupError } = await supabase
       .from('signups')
