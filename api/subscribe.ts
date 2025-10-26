@@ -73,8 +73,8 @@ export default async function handler(
         'Authorization': `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: 'BibleFit <onboarding@resend.dev>', // Update this with your verified domain
-        to: ['your-email@example.com'], // Update this with your email
+        from: 'BibleFit <noreply@kwathu.ai>',
+        to: ['jeremiahchienda@gmail.com'],
         subject: `New BibleFit Early Access Request from ${name}`,
         html: `
           <h2>New Early Access Request</h2>
