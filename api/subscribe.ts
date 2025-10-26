@@ -5,6 +5,13 @@ export default async function handler(
   req: VercelRequest,
   res: VercelResponse
 ) {
+  console.log('=== API Request Started ===')
+  console.log('Environment variables check:')
+  console.log('- VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL ? 'Set' : 'NOT SET')
+  console.log('- VITE_SUPABASE_ANON_KEY:', process.env.VITE_SUPABASE_ANON_KEY ? 'Set' : 'NOT SET')
+  console.log('- RECAPTCHA_SECRET_KEY:', process.env.RECAPTCHA_SECRET_KEY ? 'Set' : 'NOT SET')
+  console.log('- RESEND_API:', process.env.RESEND_API ? 'Set' : 'NOT SET')
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -61,6 +68,8 @@ export default async function handler(
     }
 
     // Insert signup into Supabase
+    console.log('Attempting to insert into Supabase:', { name, email, project_id: 1 })
+
     const { data: signupData, error: signupError } = await supabase
       .from('signups')
       .insert({
@@ -73,9 +82,20 @@ export default async function handler(
       .single()
 
     if (signupError) {
-      console.error('Supabase error:', signupError)
-      return res.status(500).json({ error: 'Failed to save signup. Please try again.' })
+      console.error('=== SUPABASE ERROR ===')
+      console.error('Error code:', signupError.code)
+      console.error('Error message:', signupError.message)
+      console.error('Error details:', signupError.details)
+      console.error('Error hint:', signupError.hint)
+      console.error('Full error object:', JSON.stringify(signupError, null, 2))
+      console.error('=====================')
+      return res.status(500).json({
+        error: 'Failed to save signup. Please try again.',
+        details: process.env.NODE_ENV === 'development' ? signupError.message : undefined
+      })
     }
+
+    console.log('Successfully inserted into Supabase:', signupData)
 
     const RESEND_API_KEY = process.env.RESEND_API
 
@@ -119,7 +139,18 @@ export default async function handler(
       signupId: signupData.id
     })
   } catch (error) {
-    console.error('Error sending email:', error)
-    return res.status(500).json({ error: 'Failed to process request' })
+    console.error('=== UNEXPECTED ERROR ===')
+    console.error('Error type:', typeof error)
+    console.error('Error:', error)
+    if (error instanceof Error) {
+      console.error('Error name:', error.name)
+      console.error('Error message:', error.message)
+      console.error('Error stack:', error.stack)
+    }
+    console.error('========================')
+    return res.status(500).json({
+      error: 'Failed to process request',
+      details: process.env.NODE_ENV === 'development' && error instanceof Error ? error.message : undefined
+    })
   }
 }
