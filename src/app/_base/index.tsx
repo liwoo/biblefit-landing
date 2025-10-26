@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { SiApple, SiFacebook, SiInstagram, SiTwitter, SiYoutube } from "@icons-pack/react-simple-icons"
-import { BookOpen, Sparkles, Heart } from "lucide-react"
+import { BookOpen, Sparkles, Heart, Menu, X } from "lucide-react"
 import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,6 +13,7 @@ import { Seo } from "@/components/layout/seo"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/components/ui/use-toast"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -110,15 +111,16 @@ function HomePage() {
       <AnimatedBackground />
 
       {/* Header */}
-      <header className="relative z-10 shrink-0 px-6 py-4">
+      <header className="relative z-10 shrink-0 px-4 sm:px-6 py-4">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
               <BookOpen className="h-5 w-5 text-gray-900" />
             </div>
-            <span className="text-xl font-bold text-white">BibleFit</span>
+            <span className="text-lg sm:text-xl font-bold text-white">BibleFit</span>
           </div>
 
+          {/* Desktop Navigation */}
           <nav className="hidden items-center gap-8 md:flex">
             <Link to="/features" className="text-gray-300 transition hover:text-white">
               Features
@@ -127,19 +129,38 @@ function HomePage() {
               About Developer
             </a>
           </nav>
+
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" className="text-white hover:bg-gray-800">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="bg-gray-900 border-gray-800">
+              <nav className="flex flex-col gap-6 mt-8">
+                <Link to="/features" className="text-lg text-gray-300 transition hover:text-white">
+                  Features
+                </Link>
+                <a href="https://chienda.com" target="_blank" rel="noopener noreferrer" className="text-lg text-gray-300 transition hover:text-white">
+                  About Developer
+                </a>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </header>
 
       {/* Hero Section */}
-      <div className="relative z-10 flex flex-1 items-center overflow-hidden px-6">
+      <div className="relative z-10 flex flex-1 items-center overflow-hidden px-4 sm:px-6 py-8 sm:py-0">
         <div className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Left Column - Content */}
-          <div className="flex flex-col justify-center space-y-6">
-            <div className="space-y-3">
-              <h1 className="text-4xl font-bold leading-tight text-white lg:text-5xl">
+          <div className="flex flex-col justify-center space-y-4 sm:space-y-6">
+            <div className="space-y-2 sm:space-y-3">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-white lg:text-5xl">
                 Track Your Bible Reading Like You Track Your Steps
               </h1>
-              <p className="text-base text-gray-300">
+              <p className="text-sm sm:text-base text-gray-300">
                 Close your Scripture rings every day with reading, meditation, and memorization goals.
               </p>
             </div>
@@ -178,59 +199,59 @@ function HomePage() {
                 sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || ""}
               />
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                   type="submit"
                   size="lg"
                   disabled={isSubmitting}
-                  className="h-12 flex-1 rounded-full bg-emerald-500 text-base font-semibold text-white hover:bg-emerald-600 disabled:opacity-50"
+                  className="h-12 flex-1 rounded-full bg-emerald-500 text-sm sm:text-base font-semibold text-white hover:bg-emerald-600 disabled:opacity-50"
                 >
                   <SiApple className="mr-2" size={18} />
                   {isSubmitting ? "Submitting..." : "Request Early Access"}
                 </Button>
-                <Button size="lg" variant="outline" className="h-12 flex-1 rounded-full border-gray-600 bg-white text-base font-semibold text-gray-900 hover:bg-gray-100" asChild>
+                <Button size="lg" variant="outline" className="h-12 flex-1 rounded-full border-gray-600 bg-white text-sm sm:text-base font-semibold text-gray-900 hover:bg-gray-100" asChild>
                   <Link to="/features">Find Out More</Link>
                 </Button>
               </div>
             </form>
 
             {/* Feature Icons */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="group relative flex flex-col items-center gap-2 rounded-2xl border border-emerald-500/30 bg-gray-900/80 p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/60 hover:bg-gray-900/90 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]">
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-emerald-500/30 bg-gray-800/50 transition-all duration-300 group-hover:border-emerald-500/60 group-hover:bg-emerald-500/20">
-                  <BookOpen className="h-7 w-7 text-emerald-500" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+              <div className="group relative flex flex-col items-center gap-2 rounded-2xl border border-emerald-500/30 bg-gray-900/80 p-3 sm:p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-emerald-500/60 hover:bg-gray-900/90 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl border-2 border-emerald-500/30 bg-gray-800/50 transition-all duration-300 group-hover:border-emerald-500/60 group-hover:bg-emerald-500/20">
+                  <BookOpen className="h-6 w-6 sm:h-7 sm:w-7 text-emerald-500" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs font-semibold text-white">Simple Bible</p>
-                  <p className="text-[10px] text-gray-400">iOS Native Bible Reading</p>
+                  <p className="text-xs sm:text-sm font-semibold text-white">Simple Bible</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400">iOS Native Bible Reading</p>
                 </div>
               </div>
 
-              <div className="group relative flex flex-col items-center gap-2 rounded-2xl border border-blue-500/30 bg-gray-900/80 p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-blue-500/60 hover:bg-gray-900/90 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]">
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-blue-500/30 bg-gray-800/50 transition-all duration-300 group-hover:border-blue-500/60 group-hover:bg-blue-500/20">
-                  <Sparkles className="h-7 w-7 text-blue-500" />
+              <div className="group relative flex flex-col items-center gap-2 rounded-2xl border border-blue-500/30 bg-gray-900/80 p-3 sm:p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-blue-500/60 hover:bg-gray-900/90 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl border-2 border-blue-500/30 bg-gray-800/50 transition-all duration-300 group-hover:border-blue-500/60 group-hover:bg-blue-500/20">
+                  <Sparkles className="h-6 w-6 sm:h-7 sm:w-7 text-blue-500" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs font-semibold text-white">Guided Meditation</p>
-                  <p className="text-[10px] text-gray-400">spend time reflecting on the Word</p>
+                  <p className="text-xs sm:text-sm font-semibold text-white">Guided Meditation</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400">spend time reflecting on the Word</p>
                 </div>
               </div>
 
-              <div className="group relative flex flex-col items-center gap-2 rounded-2xl border border-purple-500/30 bg-gray-900/80 p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-purple-500/60 hover:bg-gray-900/90 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]">
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl border-2 border-purple-500/30 bg-gray-800/50 transition-all duration-300 group-hover:border-purple-500/60 group-hover:bg-purple-500/20">
-                  <Heart className="h-7 w-7 text-purple-500" />
+              <div className="group relative flex flex-col items-center gap-2 rounded-2xl border border-purple-500/30 bg-gray-900/80 p-3 sm:p-4 text-center backdrop-blur-sm transition-all duration-300 hover:border-purple-500/60 hover:bg-gray-900/90 hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]">
+                <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-xl border-2 border-purple-500/30 bg-gray-800/50 transition-all duration-300 group-hover:border-purple-500/60 group-hover:bg-purple-500/20">
+                  <Heart className="h-6 w-6 sm:h-7 sm:w-7 text-purple-500" />
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-xs font-semibold text-white">Commit to Heart</p>
-                  <p className="text-[10px] text-gray-400">Tools to make the Word stick</p>
+                  <p className="text-xs sm:text-sm font-semibold text-white">Commit to Heart</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400">Tools to make the Word stick</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right Column - Phone Mockup */}
-          <div className="flex items-center justify-center">
-            <div className="scale-90 lg:scale-100">
+          <div className="hidden lg:flex items-center justify-center">
+            <div className="scale-90 xl:scale-100">
               <PhoneMockup name={name} />
             </div>
           </div>
@@ -238,9 +259,9 @@ function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 shrink-0 bg-gray-950/50 px-6 py-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="flex gap-6 text-sm text-gray-400">
+      <footer className="relative z-10 shrink-0 bg-gray-950/50 px-4 sm:px-6 py-4">
+        <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-400">
             <a href="#terms" className="transition hover:text-white">
               Terms
             </a>
@@ -249,30 +270,30 @@ function HomePage() {
             </a>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-3 sm:gap-4">
             <a
               href="#instagram"
               className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:text-white"
             >
-              <SiInstagram size={16} />
+              <SiInstagram size={14} />
             </a>
             <a
               href="#facebook"
               className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:text-white"
             >
-              <SiFacebook size={16} />
+              <SiFacebook size={14} />
             </a>
             <a
               href="#twitter"
               className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:text-white"
             >
-              <SiTwitter size={16} />
+              <SiTwitter size={14} />
             </a>
             <a
               href="#youtube"
               className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition hover:text-white"
             >
-              <SiYoutube size={16} />
+              <SiYoutube size={14} />
             </a>
           </div>
         </div>
