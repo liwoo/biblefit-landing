@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { supabase } from '../lib/supabase'
 
 export default async function handler(
   req: VercelRequest,
@@ -58,6 +59,24 @@ export default async function handler(
       console.error('reCAPTCHA verification failed:', recaptchaData['error-codes'])
       return res.status(400).json({ error: 'reCAPTCHA verification failed. Please try again.' })
     }
+
+    // Insert signup into Supabase
+    const { data: signupData, error: signupError } = await supabase
+      .from('signups')
+      .insert({
+        name,
+        email,
+        is_subscribed: true,
+        project_id: 1,
+      })
+      .select()
+      .single()
+
+    if (signupError) {
+      console.error('Supabase error:', signupError)
+      return res.status(500).json({ error: 'Failed to save signup. Please try again.' })
+    }
+
     const RESEND_API_KEY = process.env.RESEND_API
 
     if (!RESEND_API_KEY) {
@@ -96,7 +115,8 @@ export default async function handler(
     return res.status(200).json({
       success: true,
       message: 'Successfully subscribed!',
-      id: data.id
+      emailId: data.id,
+      signupId: signupData.id
     })
   } catch (error) {
     console.error('Error sending email:', error)
