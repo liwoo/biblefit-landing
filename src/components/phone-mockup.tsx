@@ -12,7 +12,7 @@ export function PhoneMockup({ name = "Carl Mabaya" }: PhoneMockupProps) {
       <div className="h-full w-full overflow-hidden rounded-[2rem] sm:rounded-[2.2rem] bg-gradient-to-b from-gray-800 to-gray-900 p-2.5 sm:p-4">
         {/* Summary header */}
         <div className="mb-3 sm:mb-6 mt-4 sm:mt-8 cursor-pointer rounded-xl sm:rounded-2xl bg-emerald-500 p-2.5 sm:p-4 shadow-[0_8px_30px_rgba(0,0,0,0.4)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
-          <p className="text-[10px] sm:text-sm font-medium text-white/90">{name}&apos;s</p>
+          <p className="text-[10px] sm:text-sm font-medium text-white/90">{name || "Carl Mabaya"}&apos;s</p>
           <h2 className="text-lg sm:text-2xl font-bold text-white">Summary</h2>
           <p className="text-[9px] sm:text-xs text-emerald-100">Daily Scripture Goals</p>
         </div>

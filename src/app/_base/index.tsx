@@ -25,7 +25,7 @@ export const Route = createFileRoute("/_base/")({
 })
 
 function HomePage() {
-  const [name, setName] = useState("Carl Mabaya")
+  const [name, setName] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const { toast } = useToast()
@@ -38,7 +38,7 @@ function HomePage() {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "Carl Mabaya",
+      name: "",
       email: "",
     },
   })
@@ -79,7 +79,7 @@ function HomePage() {
           description: "You've been added to the early access list. We'll notify you when BibleFit launches!",
         })
         reset()
-        setName("Carl Mabaya")
+        setName("")
         recaptchaRef.current?.reset()
       } else {
         recaptchaRef.current?.reset()
