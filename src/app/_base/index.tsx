@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { SiApple, SiFacebook, SiInstagram, SiTwitter, SiYoutube } from "@icons-pack/react-simple-icons"
-import { BookOpen, Sparkles, Heart, Menu, X } from "lucide-react"
+import { BookOpen, Sparkles, Heart, Menu } from "lucide-react"
 import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -137,7 +137,7 @@ function HomePage() {
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent className="bg-gray-900 border-gray-800">
+            <SheetContent className="bg-gray-900 border-gray-800 text-white">
               <nav className="flex flex-col gap-6 mt-8">
                 <Link to="/features" className="text-lg text-gray-300 transition hover:text-white">
                   Features
@@ -152,18 +152,29 @@ function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <div className="relative z-10 flex flex-1 items-center overflow-hidden px-4 sm:px-6 py-8 sm:py-0">
-        <div className="mx-auto grid w-full max-w-7xl gap-8 lg:grid-cols-2 lg:gap-12">
-          {/* Left Column - Content */}
-          <div className="flex flex-col justify-center space-y-4 sm:space-y-6">
-            <div className="space-y-2 sm:space-y-3">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-white lg:text-5xl">
-                Track Your Bible Reading Like You Track Your Steps
-              </h1>
-              <p className="text-sm sm:text-base text-gray-300">
-                Close your Scripture rings every day with reading, meditation, and memorization goals.
-              </p>
+      <div className="relative z-10 flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+        <div className="flex-1 px-4 sm:px-6">
+          <div className="mx-auto w-full max-w-7xl py-0 sm:py-8 lg:py-0 lg:flex lg:items-center lg:min-h-full">
+            <div className="grid w-full gap-8 lg:grid-cols-2 lg:gap-12">
+            {/* Mobile: Phone Mockup First - Cut in Half */}
+            <div className="flex items-center justify-center lg:hidden overflow-hidden">
+              <div className="h-[50vh] flex items-end justify-center overflow-hidden">
+                <div className="-mb-[50%]">
+                  <PhoneMockup name={name} />
+                </div>
+              </div>
             </div>
+
+            {/* Left Column - Content */}
+            <div className="flex flex-col justify-center space-y-4 sm:space-y-6">
+              <div className="space-y-2 sm:space-y-3">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-white lg:text-5xl">
+                  Track Your Bible Reading Like You Track Your Steps
+                </h1>
+                <p className="text-sm sm:text-base text-gray-300">
+                  Close your Scripture rings every day with reading, meditation, and memorization goals.
+                </p>
+              </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
               <div>
@@ -204,12 +215,12 @@ function HomePage() {
                   type="submit"
                   size="lg"
                   disabled={isSubmitting}
-                  className="h-12 flex-1 rounded-full bg-emerald-500 text-sm sm:text-base font-semibold text-white hover:bg-emerald-600 disabled:opacity-50"
+                  className="h-11 sm:h-12 flex-1 rounded-full bg-emerald-500 px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white hover:bg-emerald-600 disabled:opacity-50"
                 >
-                  <SiApple className="mr-2" size={18} />
+                  <SiApple className="mr-2" size={16} />
                   {isSubmitting ? "Submitting..." : "Request Early Access"}
                 </Button>
-                <Button size="lg" variant="outline" className="h-12 flex-1 rounded-full border-gray-600 bg-white text-sm sm:text-base font-semibold text-gray-900 hover:bg-gray-100" asChild>
+                <Button size="lg" variant="outline" className="h-11 sm:h-12 flex-1 rounded-full border-gray-600 bg-white px-6 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-gray-900 hover:bg-gray-100" asChild>
                   <Link to="/features">Find Out More</Link>
                 </Button>
               </div>
@@ -247,19 +258,20 @@ function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
 
-          {/* Right Column - Phone Mockup */}
-          <div className="hidden lg:flex items-center justify-center">
-            <div className="scale-90 xl:scale-100">
-              <PhoneMockup name={name} />
+            {/* Desktop: Phone Mockup on Right */}
+            <div className="hidden lg:flex items-center justify-center">
+              <div className="scale-90 xl:scale-100">
+                <PhoneMockup name={name} />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 shrink-0 bg-gray-950/50 px-4 sm:px-6 py-4">
+      <footer className="relative z-10 shrink-0 bg-gray-950/50 px-4 sm:px-6 py-4 mt-auto">
         <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex gap-4 sm:gap-6 text-xs sm:text-sm text-gray-400">
             <a href="#terms" className="transition hover:text-white">
@@ -297,7 +309,8 @@ function HomePage() {
             </a>
           </div>
         </div>
-      </footer>
+        </footer>
+      </div>
     </div>
   )
 }

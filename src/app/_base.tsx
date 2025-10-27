@@ -1,7 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router"
 
-import { ScrollArea } from "@/components/ui/scroll-area"
-
 export const Route = createFileRoute("/_base")({
   component: BaseLayout,
 })
